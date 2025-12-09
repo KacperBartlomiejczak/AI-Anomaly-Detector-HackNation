@@ -1,66 +1,68 @@
-# Wykrywacz Anomalii AI do Skanów Rentgenowskich
+# AI Anomaly Detector for X-ray Scans
 
-Ten projekt to aplikacja webowa typu full-stack, zaprojektowana w celu wspierania funkcjonariuszy celnych w identyfikacji anomalii na obrazach rentgenowskich pojazdów. Wykorzystuje model AI do automatycznego porównywania skanów RTG i podkreślania potencjalnych nieregularności, modyfikacji lub ukrytych obiektów, które mogą wskazywać na przemyt.
+This project is a full-stack web application designed to assist customs officers in identifying anomalies in vehicle X-ray images. It leverages an AI model to automatically compare X-ray scans and highlight potential irregularities, modifications, or hidden objects that may indicate smuggling.
 
-System został opracowany w celu wsparcia Krajowej Administracji Skarbowej (KAS) poprzez automatyzację analizy dużej ilości obrazów rentgenowskich z przejść granicznych, co czyni proces kontroli szybszym i bardziej efektywnym.
+The system was developed to support the National Revenue Administration (KAS) by automating the analysis of large quantities of X-ray images from border crossings, thereby making the inspection process faster and more efficient.
 
-## Jak Zacząć
+## Introduction - Organization, Situation, and Current Status
 
-Całą aplikację można zbudować i uruchomić za pomocą Docker Compose.
-Sztuczna inteligencja była trenowana na niebieskich zdjęciach.
-Trzeba dodać zdjęcia luzem, bez folderów.
-Po odpaleniu dockera dopiero wrzucić zdjęcia do folderu.
+The National Revenue Administration (KAS) utilizes large-scale X-ray devices at the external EU border for customs and fiscal control. These devices are used for non-invasive inspection of containers, heavy goods vehicles, passenger cars, coaches, and railway wagons. The suppliers of these devices include Nuctech and Multicontrol. X-ray operators (Customs and Fiscal Service officers) assess the factual status based on X-ray images and decide on further proceedings, which may include ordering a physical inspection to verify whether undeclared goods are present in the vehicle structure or the transported cargo. All X-ray images are sent to a central repository for storage. Previous experience of the Customs and Fiscal Service indicates that smugglers hide undeclared goods both within the structural elements of vehicles and within the goods formally declared. X-ray operators analyzing these images require analytical support, in the form of an AI-based analytical tool, that compares analyzed X-ray images from large-scale X-ray devices with reference images and indicates differences that may suggest the transport of undeclared goods (smuggling).
 
-### Wymagania Wstępne
+Currently, KAS employs an AI-based non-invasive control tool for the automatic detection of cigarettes in vehicles and goods based on analyzed X-ray images. However, for the smuggling of small quantities of cigarettes hidden in structural elements of vehicles, the effectiveness of this tool is unsatisfactory. In such cases, details, structural changes, and modifications to create hiding places for smuggling purposes may indicate illicit activities.
 
--   Docker i Docker Compose
--   Lokalny folder zawierający obrazy rentgenowskie, które chcesz analizować.
+## Problem Statement
 
-### Instalacja i Uruchomienie
+Customs operators manually inspect thousands of X-ray images daily in search of smuggled goods hidden within vehicle structures or cargo. This process is time-consuming and highly susceptible to human error, especially when dealing with subtle modifications. This project aims to provide an intelligent tool that supports operators by automatically flagging suspicious areas.
 
-1.  **Utwórz Plik Środowiskowy**:
-    Utwórz plik `.env` w głównym katalogu projektu. Dodaj następującą linię, zastępując symbol zastępczy bezwzględną ścieżką do folderu z obrazami:
+## Solution
+
+The application provides a web interface where users can view and manage X-ray scans. A powerful backend, driven by a PyTorch-based machine learning model, performs anomaly detection.
+
+### Key Features
+
+-   **AI-powered Anomaly Detection**: A deep learning model analyzes X-ray images in `.bmp` format to find deviations from normal patterns.
+-   **Image Comparison**: The system can compare a vehicle X-ray scan with a "clean" reference image or identify anomalies based on learned patterns.
+-   **Visual Feedback**: Suspicious areas and detected anomalies are highlighted directly on the image in the user interface.
+-   **Automated Workflow**: A folder-watching mechanism automatically processes new X-ray images as they appear.
+-   **Scalable Architecture**: Designed to handle large image files (~50MB each) and large datasets.
+
+## Getting Started
+
+The entire application can be built and run using Docker Compose.
+
+### Prerequisites
+
+-   Docker and Docker Compose
+-   A local folder containing the X-ray images you wish to analyze.
+
+### Installation and Running
+
+1.  **Environment Setup**:
+    Create a `.env` file in the project's root directory. Add the following line, replacing the placeholder with the absolute path to your image folder:
     ```
-    SEARCH_FOLDER=<ścieżka_do_twojego_folderu_z_obrazami>
+    SEARCH_FOLDER=<path_to_your_images_folder>
     ```
-    Ta zmienna montuje folder z obrazami do kontenera backendu w celu ich przetwarzania.
+    This variable mounts the image folder into the backend container for processing.
 
-2.  **Zbuduj i Uruchom za pomocą Docker Compose**:
-    Otwórz terminal w głównym katalogu projektu i uruchom:
+2.  **Build and Run with Docker Compose**:
+    Open a terminal in the project's root directory and execute:
     ```bash
     docker-compose up -d --build
     ```
 
-3.  **Dostęp do Aplikacji**:
-    -   Frontend będzie dostępny pod adresem **`http://localhost:3000`**.
-    -   API backendu będzie dostępne pod adresem **`http://localhost:8000`**.
+3.  **Access the Application**:
+    -   The frontend will be accessible at **`http://localhost:3000`**.
+    -   The backend API will be accessible at **`http://localhost:8000`**.
 
-## Problem
-
-Operatorzy celni codziennie ręcznie sprawdzają tysiące obrazów rentgenowskich w poszukiwaniu przemycanych towarów ukrytych w konstrukcjach pojazdów lub w ładunku. Proces ten jest czasochłonny i podatny na błędy ludzkie, zwłaszcza w przypadku subtelnych modyfikacji. Ten projekt ma na celu dostarczenie inteligentnego narzędzia, które wspiera operatorów poprzez automatyczne oznaczanie podejrzanych obszarów.
-
-## Rozwiązanie
-
-Aplikacja dostarcza interfejs webowy, w którym użytkownicy mogą przeglądać i zarządzać skanami rentgenowskimi. Potężny backend, napędzany przez model uczenia maszynowego oparty na PyTorch, wykonuje detekcję anomalii.
-
-### Główne Funkcje
-
--   **Wykrywanie Anomalii za pomocą AI**: Model głębokiego uczenia analizuje obrazy rentgenowskie w formacie `.bmp` w celu znalezienia odchyleń od normalnych wzorców.
--   **Porównywanie Obrazów**: System potrafi porównać skan rentgenowski pojazdu z "czystym" obrazem referencyjnym lub zidentyfikować anomalie na podstawie nauczonych wzorców.
--   **Wizualna Informacja Zwrotna**: Podejrzane obszary i wykryte anomalie są podświetlane bezpośrednio na obrazie w interfejsie użytkownika.
--   **Zautomatyzowany Przepływ Pracy**: Mechanizm obserwujący foldery automatycznie przetwarza nowe obrazy rentgenowskie, gdy tylko się pojawią.
--   **Skalowalna Architektura**: Zaprojektowana do obsługi dużych plików graficznych (~50MB każdy) i dużych zbiorów danych.
-
-## Stos Technologiczny
+## Technology Stack
 
 -   **Frontend**: Next.js, React, TypeScript, Tailwind CSS
 -   **Backend**: Python, FastAPI, PyTorch, OpenCV
--   **Orkiestracja**: Docker
+-   **Orchestration**: Docker
 
-## Architektura Systemu
+## System Architecture
 
-Projekt wykorzystuje nowoczesną architekturę klient-serwer:
--   **Frontend** to aplikacja Next.js zapewniająca responsywny i interaktywny interfejs użytkownika do przeglądania wyników skanowania.
--   **Backend** to usługa FastAPI, która udostępnia REST API i WebSocket do przetwarzania obrazów. Uruchamia model AI do wykrywania anomalii i zarządza danymi obrazów.
--   **Docker Compose** koordynuje obie usługi, co ułatwia konfigurację i wdrożenie.
-
+The project employs a modern client-server architecture:
+-   **Frontend** is a Next.js application providing a responsive and interactive user interface for viewing scan results.
+-   **Backend** is a FastAPI service that offers a REST API and WebSocket for image processing. It hosts the AI model for anomaly detection and manages image data.
+-   **Docker Compose** orchestrates both services, simplifying setup and deployment.
