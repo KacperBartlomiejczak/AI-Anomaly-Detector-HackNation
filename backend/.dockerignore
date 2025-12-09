@@ -1,0 +1,51 @@
+# --- Version Control ---
+.git
+.gitignore
+.dockerignore
+
+# --- Python Internals ---
+__pycache__
+*.py[cod]
+*$py.class
+
+# --- Virtual Environments ---
+# We install dependencies inside the container, so we don't need local venvs
+venv
+env
+.venv
+.env_folder
+
+# --- Environment Variables (SECURITY) ---
+# Secrets should be passed via --env-file or platform secrets,
+# NOT baked into the image file system.
+.env
+.env.*
+
+# --- Testing & Quality Assurance ---
+# Exclude test cache and coverage reports
+.pytest_cache
+.coverage
+htmlcov
+.mypy_cache
+.ruff_cache
+
+# Optional: Exclude actual test code from the production image
+# (Comment this out if you run tests INSIDE the Docker build process)
+tests/
+
+# --- IDE & Editor Settings ---
+.vscode
+.idea
+*.swp
+*.swo
+
+# --- Documentation & Metadata ---
+README.md
+LICENSE
+docs/
+
+# --- Docker Assets ---
+# The container doesn't need its own recipe
+Dockerfile
+docker-compose.yml
+docker-compose.*.yml

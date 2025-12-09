@@ -1,0 +1,49 @@
+# --- Python Internals ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual Environments ---
+# It is best practice to keep venv local and not in the repo
+venv/
+env/
+.venv/
+.env/
+
+# --- Environment Variables (CRITICAL) ---
+# Never commit secrets/API keys. Use a .env.example instead.
+.env
+.env.prod
+.env.dev
+.env.local
+
+# --- FastAPI / Web Development ---
+# Local SQLite databases (common during dev)
+*.sqlite3
+*.db
+*.db-journal
+
+# Log files
+*.log
+logs/
+
+# Static uploads (if your app handles user uploads)
+# Adjust 'static/uploads' to match your directory structure
+static/uploads/
+
+# --- Testing & Code Quality ---
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# --- Distribution / Packaging ---
+build/
+dist/
+*.egg-info/
+
+# --- IDE / Editor Settings ---
+.vscode/
+.idea/
+*.swp
