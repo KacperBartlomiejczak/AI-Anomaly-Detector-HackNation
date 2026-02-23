@@ -9,7 +9,7 @@ import FullscreenImage from "../components/FullscreenImage";
 
 export default function Home() {
   const { status, lastMessage, isConnected } = useWebSocket<BackendMessage>(
-    process.env.NEXT_PUBLIC_WEBSOCKET_URL,
+    process.env.NEXT_PUBLIC_WEBSOCKET_URL ?? "",
   );
 
   const [scannedImages, setScannedImages] = useState<ScanImage[]>([]);

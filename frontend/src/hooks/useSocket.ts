@@ -7,7 +7,7 @@ export type ConnectionStatus =
   | "disconnected"
   | "error";
 
-export function useWebSocket(url: string) {
+export function useWebSocket<T>(url: string) {
   const [lastMessage, setLastMessage] = useState<BackendMessage | null>(null);
   const [status, setStatus] = useState<ConnectionStatus>("disconnected"); // Startujemy od disconnected
   const socketRef = useRef<WebSocket | null>(null);

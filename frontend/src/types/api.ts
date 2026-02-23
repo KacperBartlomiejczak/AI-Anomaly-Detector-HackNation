@@ -71,6 +71,7 @@ export type BackendMessage =
   | {
       type: "ML_RESULT";
       payload: string; // Tu wpada surowy ciąg znaków Base64
+      name: string;
     }
   // ---------------------------
   // Obsługa błędów
