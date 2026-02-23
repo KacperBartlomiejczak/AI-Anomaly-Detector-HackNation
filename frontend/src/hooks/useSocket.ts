@@ -21,6 +21,7 @@ export function useWebSocket<T>(url: string) {
   }, []);
 
   useEffect(() => {
+    if (!url) return;
     // 1. ZABEZPIECZENIE: Jeśli socket już istnieje, nie robimy nic.
     // To przerywa pętlę nieskończonych połączeń!
     if (socketRef.current) return;
@@ -53,7 +54,7 @@ export function useWebSocket<T>(url: string) {
 
     socket.onclose = (event) => {
       console.log("🔒 WebSocket closed code:", event.code);
-      if (status !== "error") setStatus("disconnected");
+      setStatus((prev) => (prev === "error" ? prev : "disconnected"));
       // Ważne: czyścimy referencję przy zamknięciu
       socketRef.current = null;
     };
